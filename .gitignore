@@ -1,0 +1,10 @@
+# Personal data never goes in the repo. Progress exports and profiles stay
+# in localStorage / local files only. (Git history is forever once pushed.)
+*progress*.json
+!sample-progress.json
+profile*.json
+
+.claude/
+node_modules/
+.DS_Store
+Thumbs.db

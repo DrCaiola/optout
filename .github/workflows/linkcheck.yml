@@ -1,0 +1,63 @@
+name: Weekly opt-out link check
+
+on:
+  schedule:
+    - cron: "17 9 * * 1" # Mondays 09:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check links
+        run: node scripts/check-links.mjs --json > linkcheck.json && cat linkcheck.json
+      - name: Open or update issue for broken links
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const report = require("./linkcheck.json");
+            const title = "Broken opt-out links (automated report)";
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: "open", labels: "linkcheck",
+            });
+            const existing = issues.find(i => i.title === title);
+            if (!report.broken.length) {
+              if (existing) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  issue_number: existing.number,
+                  body: `All ${report.total} links healthy as of ${report.checkedAt} — closing.`,
+                });
+                await github.rest.issues.update({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  issue_number: existing.number, state: "closed",
+                });
+              }
+              return;
+            }
+            const rows = report.broken.map(r => `| \`${r.id}\` | ${r.verdict} | ${r.url} |`).join("\n");
+            const body = [
+              `Automated weekly check found ${report.broken.length} broken opt-out link(s) as of ${report.checkedAt}.`,
+              "", "| Broker | Problem | URL |", "|---|---|---|", rows, "",
+              "Please verify in a real browser (some brokers block bots) and PR a fix to `brokers.json` — remember to run `node scripts/sync-data.mjs` and update `lastVerified`.",
+            ].join("\n");
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body, labels: ["linkcheck"],
+              });
+            }

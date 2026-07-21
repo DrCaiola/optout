@@ -1,0 +1,281 @@
+// GENERATED from brokers.json — do not edit by hand. Run: node scripts/sync-data.mjs
+window.BROKER_DATA = {
+  "meta": {
+    "license": "CC BY-NC-SA 4.0",
+    "attribution": "Broker list and opt-out details adapted from the Big Ass Data Broker Opt-Out List (BADBOOL) by Yael Grauer and contributors — https://github.com/yaelwrites/Big-Ass-Data-Broker-Opt-Out-List — licensed CC BY-NC-SA 4.0. Please contribute corrections upstream.",
+    "orderNote": "Array order is the recommended action order: cascading opt-outs first (they clear sister sites), then remaining tier-1 people-search sites, then tier-2 private-database brokers.",
+    "statuses": [
+      "not_checked",
+      "no_listing",
+      "found_listing",
+      "request_sent",
+      "removed",
+      "recheck_due"
+    ]
+  },
+  "brokers": [
+    {
+      "id": "peopleconnect",
+      "name": "PeopleConnect (Intelius / TruthFinder / Instant Checkmate / US Search)",
+      "tier": 1,
+      "optOutUrl": "https://suppression.peopleconnect.us/login",
+      "method": "form",
+      "note": "Use the SUPPRESSION center, which keeps a suppression account on file — do NOT use their 'right to delete', because deleting the account deletes the suppressions with it. One suppression covers Intelius, TruthFinder, Instant Checkmate, and US Search. Requires email verification; may ask to verify by phone or address.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "beenverified",
+      "name": "BeenVerified",
+      "tier": 1,
+      "optOutUrl": "https://www.beenverified.com/app/optout/search",
+      "method": "form",
+      "note": "Only one opt-out per email address; requires email confirmation. Clears sister sites on the same platform (PeopleLooker, NeighborWho, Ownerly, NumberGuru). Property/address listings have a separate opt-out flow.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "smartbg",
+      "name": "SmartBackgroundChecks",
+      "tier": 1,
+      "optOutUrl": "https://www.smartbackgroundchecks.com/optout",
+      "method": "form",
+      "note": "Same parent as PeopleFinders — opting out here typically clears PeopleFinders too. Check both after a few days.",
+      "cascades": [
+        "peoplefinders"
+      ],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "peoplefinders",
+      "name": "PeopleFinders",
+      "tier": 1,
+      "optOutUrl": "https://www.peoplefinders.com/opt-out",
+      "method": "form",
+      "note": "Shares data with SmartBackgroundChecks; if you already opted out there, your listing here may clear on its own. Verify rather than re-submitting immediately.",
+      "cascades": [
+        "smartbg"
+      ],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "whitepages",
+      "name": "Whitepages",
+      "tier": 1,
+      "optOutUrl": "https://www.whitepages.com/suppression_requests",
+      "method": "form",
+      "note": "May require an automated phone call that reads a verification code. Whitepages Premium listings are separate — check both.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "spokeo",
+      "name": "Spokeo",
+      "tier": 1,
+      "optOutUrl": "https://www.spokeo.com/optout",
+      "method": "form",
+      "note": "Paste the URL of your listing into the opt-out form; requires email confirmation.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "radaris",
+      "name": "Radaris",
+      "tier": 1,
+      "optOutUrl": "https://radaris.com/control-privacy",
+      "method": "form",
+      "contactEmail": "customer-service@radaris.com",
+      "note": "Often needs multiple rounds — listings reappear. May push you to create an account or verify by phone; the email route is a fallback if the form stalls.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "mylife",
+      "name": "MyLife",
+      "tier": 1,
+      "optOutUrl": "https://www.mylife.com/privacyrequest",
+      "method": "form",
+      "contactEmail": "privacy@mylife.com",
+      "note": "Often needs multiple rounds. May ask for a driver's license — do NOT send ID; a name + listing URL request by email or phone (888-704-1900) has worked without it.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "fastpeople",
+      "name": "FastPeopleSearch",
+      "tier": 1,
+      "optOutUrl": "https://www.fastpeoplesearch.com/removal",
+      "method": "form",
+      "note": "CAPTCHA required; find your listing, then use the removal flow.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "truepeople",
+      "name": "TruePeopleSearch",
+      "tier": 1,
+      "optOutUrl": "https://www.truepeoplesearch.com/removal",
+      "method": "form",
+      "note": "Multiple CAPTCHAs; needs name, city, state, email. Often auto-clears after the tier-1 cascades above — check before submitting.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "nuwber",
+      "name": "Nuwber",
+      "tier": 1,
+      "optOutUrl": "https://nuwber.com/removal/link",
+      "method": "form",
+      "contactEmail": "support@nuwber.com",
+      "note": "Filter results by state to find your listing; email support if the form fails.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "thatsthem",
+      "name": "ThatsThem",
+      "tier": 1,
+      "optOutUrl": "https://thatsthem.com/optout",
+      "method": "form",
+      "note": "Ignore the identity-theft upsell links on the page; use only the opt-out form.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "usphonebook",
+      "name": "USPhoneBook",
+      "tier": 1,
+      "optOutUrl": "https://www.usphonebook.com/opt-out/",
+      "method": "form",
+      "contactEmail": "support+optout@usphonebook.com",
+      "note": "If the opt-out page hangs, email instead with the listing URL.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "clustrmaps",
+      "name": "ClustrMaps",
+      "tier": 1,
+      "optOutUrl": "https://clustrmaps.com/bl/opt-out",
+      "method": "form",
+      "note": "Search for your listing URL first, then submit it to the opt-out form; email confirmation required. Site was unreachable in automated checks (July 2026) — may be down or aggressively bot-blocking; verify in a browser.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "peekyou",
+      "name": "PeekYou",
+      "tier": 1,
+      "optOutUrl": "https://www.peekyou.com/about/contact/optout/",
+      "method": "form",
+      "note": "Paste your listing URL into the form, then click the verification link PeekYou emails you (it expires quickly). Domain did not resolve in automated checks (July 2026) — verify in a browser.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "familytreenow",
+      "name": "FamilyTreeNow",
+      "tier": 1,
+      "optOutUrl": "https://www.familytreenow.com/optout",
+      "method": "form",
+      "note": "Straightforward: search for your record, then opt out from the record page.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "searchpeoplefree",
+      "name": "SearchPeopleFree",
+      "tier": 1,
+      "optOutUrl": "https://www.searchpeoplefree.com/opt-out",
+      "method": "form",
+      "note": "Find your listing by name, phone, or address first, then submit it for removal.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "checkpeople",
+      "name": "CheckPeople",
+      "tier": 1,
+      "optOutUrl": "https://checkpeople.com/opt-out",
+      "method": "form",
+      "note": "Asks for legal name and date of birth to locate the record.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "cocofinder",
+      "name": "CocoFinder",
+      "tier": 1,
+      "optOutUrl": "https://cocofinder.com/remove-my-info",
+      "method": "form",
+      "note": "Submit your listing URL; confirmation by email.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "acxiom",
+      "name": "Acxiom",
+      "tier": 2,
+      "optOutUrl": "https://www.acxiom.com/optout/",
+      "method": "form",
+      "contactEmail": "consumeradvo@acxiom.com",
+      "note": "Marketing-data giant with no public listings. Use the US opt-out portal; phone alternative 877-774-2094. Processing can take a few weeks.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "lexisnexis",
+      "name": "LexisNexis Risk Solutions",
+      "tier": 2,
+      "optOutUrl": "https://optout.lexisnexis.com/",
+      "method": "form",
+      "note": "Information-suppression request; full suppression may require a qualifying reason (e.g. identity-theft victim, public-safety role). Their consumer disclosure report (consumer.risk.lexisnexis.com) shows what they hold on you and is worth requesting first.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "epsilon",
+      "name": "Epsilon",
+      "tier": 2,
+      "optOutUrl": "https://legal.epsilon.com/dsr/",
+      "method": "email",
+      "contactEmail": "optout@epsilon.com",
+      "note": "Marketing-data broker; no public listings. Email opt-out with full name and mailing address, or use the data-subject-request portal. Phone: 866-267-3861.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "corelogic",
+      "name": "CoreLogic (Cotality)",
+      "tier": 2,
+      "optOutUrl": "https://www.cotality.com/legal/privacy-policy",
+      "method": "email",
+      "contactEmail": "privacy@corelogic.com",
+      "note": "Property and tenant-screening data; CoreLogic rebranded to Cotality. No general public opt-out form — email a deletion/do-not-sell letter including name and current + recent addresses so they can locate records, or call 800-634-4149. California residents have additional CCPA routes via the privacy policy page.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "experian",
+      "name": "Experian Marketing Services",
+      "tier": 2,
+      "optOutUrl": "https://consumerprivacy.experian.com/",
+      "method": "form",
+      "contactEmail": "optout@experian.com",
+      "note": "This is the MARKETING-data side of Experian, separate from your credit report (which you cannot and should not delete). Use the consumer privacy portal for deletion/do-not-sell; also do optoutprescreen.com (official credit-bureau prescreen opt-out). Marketing opt-outs lapse after ~5 years — renew.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    },
+    {
+      "id": "thomson",
+      "name": "Thomson Reuters (CLEAR)",
+      "tier": 2,
+      "optOutUrl": "https://legal.thomsonreuters.com/en/legal-notices/privacy-records",
+      "method": "form",
+      "contactEmail": "privacy.enquiries@thomsonreuters.com",
+      "note": "CLEAR is an investigative/public-records platform. The public-records privacy statement links the data-subject-rights portal (or call 866-633-7656); removal may require qualifying criteria (e.g. identity theft, safety risk) and often isn't full suppression. The email route works for deletion requests under state privacy law.",
+      "cascades": [],
+      "lastVerified": "2026-07-21"
+    }
+  ]
+};

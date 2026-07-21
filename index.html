@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Broker Opt-Out Tracker</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+</head>
+<body>
+<header class="site-header">
+  <h1>Data Broker Opt-Out Tracker</h1>
+  <p class="tagline">Track your removal requests across people-search sites and private data brokers. Self-hosted, no accounts, no telemetry — <strong>nothing leaves your browser.</strong></p>
+</header>
+
+<main>
+  <section class="dashboard" id="dashboard" aria-label="Progress summary"></section>
+
+  <section class="toolbar" aria-label="Actions">
+    <button id="btnProfile" type="button">👤 Profile</button>
+    <button id="btnExport" type="button">⬇ Export JSON</button>
+    <button id="btnImport" type="button">⬆ Import JSON</button>
+    <input type="file" id="importFile" accept="application/json,.json" hidden>
+    <button id="btnCopyState" type="button">Copy state as JSON</button>
+    <button id="btnSessionPrompt" type="button">Copy session prompt</button>
+  </section>
+
+  <section class="profile" id="profilePanel" hidden aria-label="Your profile">
+    <h2>Profile</h2>
+    <p class="muted">Used to fill deletion letters and agent prompts. Stored only in this browser's localStorage.</p>
+    <div class="profile-grid">
+      <label>Full name <input id="pfName" autocomplete="off" placeholder="Jane Q. Sample"></label>
+      <label>City <input id="pfCity" autocomplete="off" placeholder="Springfield"></label>
+      <label>State <select id="pfState"></select></label>
+      <label>Email <input id="pfEmail" type="email" autocomplete="off" placeholder="alias@example.com"></label>
+    </div>
+    <p class="muted">Tip: use a dedicated email alias for opt-outs and forward it to your inbox — verification links and compliance replies stay corralled.</p>
+  </section>
+
+  <section id="tier1" aria-label="Tier 1 brokers">
+    <h2>Tier 1 — people-search sites <span class="muted h-note">public listings; do the cascading opt-outs at the top first</span></h2>
+    <div class="broker-list" id="tier1List"></div>
+  </section>
+
+  <section id="tier2" aria-label="Tier 2 brokers">
+    <h2>Tier 2 — private-database brokers <span class="muted h-note">no public listings; reached by web form or deletion letter</span></h2>
+    <div class="broker-list" id="tier2List"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>Broker data adapted from the <a href="https://github.com/yaelwrites/Big-Ass-Data-Broker-Opt-Out-List" target="_blank" rel="noopener">Big Ass Data Broker Opt-Out List</a> (CC BY-NC-SA 4.0) — please contribute corrections upstream.</p>
+  <p class="muted">Not legal advice. Results vary by broker; statutes change. Expect 1–45 days per broker and repeat rounds for some.</p>
+</footer>
+
+<dialog id="letterDialog">
+  <h2 id="letterTitle">Deletion letter</h2>
+  <div class="letter-controls">
+    <label>State / statute <select id="letterState"></select></label>
+  </div>
+  <textarea id="letterText" rows="18" spellcheck="false"></textarea>
+  <div class="dialog-actions">
+    <button id="btnCopyLetter" type="button">Copy letter</button>
+    <a id="btnMailto" class="button" hidden target="_blank" rel="noopener">Open in email app</a>
+    <button id="btnCloseLetter" type="button" class="ghost">Close</button>
+  </div>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="brokers.js"></script>
+<script src="statutes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

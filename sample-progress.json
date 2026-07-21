@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "profile": {
+    "name": "Jane Q. Sample",
+    "city": "Springfield",
+    "state": "MD",
+    "email": "optouts.janesample@example.com"
+  },
+  "brokers": {
+    "peopleconnect": {
+      "status": "removed",
+      "notes": "Suppression account created — do not delete it!",
+      "history": [
+        { "status": "request_sent", "at": "2026-04-02T15:04:00.000Z" },
+        { "status": "removed", "at": "2026-04-09T18:22:00.000Z" }
+      ],
+      "recheckAt": "2026-07-08T18:22:00.000Z"
+    },
+    "beenverified": {
+      "status": "request_sent",
+      "notes": "Confirmation email clicked 4/2.",
+      "history": [{ "status": "request_sent", "at": "2026-04-02T16:11:00.000Z" }],
+      "recheckAt": null
+    },
+    "whitepages": {
+      "status": "found_listing",
+      "notes": "Two listings: current + old address.",
+      "history": [{ "status": "found_listing", "at": "2026-04-01T20:40:00.000Z" }],
+      "recheckAt": null
+    },
+    "truepeople": {
+      "status": "no_listing",
+      "notes": "Cleared on its own after PeopleConnect suppression.",
+      "history": [{ "status": "no_listing", "at": "2026-04-20T13:00:00.000Z" }],
+      "recheckAt": null
+    }
+  }
+}

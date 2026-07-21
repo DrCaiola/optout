@@ -1,0 +1,135 @@
+// GENERATED from statutes.json — do not edit by hand. Run: node scripts/sync-data.mjs
+window.STATUTE_DATA = {
+  "meta": {
+    "note": "State comprehensive-privacy-law map used by the deletion-letter generator. deadlineDays is the statutory response window for consumer requests. Not legal advice; statutes change — PRs with corrections welcome.",
+    "fallback": "other"
+  },
+  "statutes": {
+    "CA": {
+      "state": "California",
+      "law": "California Consumer Privacy Act, as amended by the CPRA",
+      "citation": "Cal. Civ. Code § 1798.100 et seq.",
+      "deadlineDays": 45
+    },
+    "CO": {
+      "state": "Colorado",
+      "law": "Colorado Privacy Act",
+      "citation": "Colo. Rev. Stat. § 6-1-1301 et seq.",
+      "deadlineDays": 45
+    },
+    "CT": {
+      "state": "Connecticut",
+      "law": "Connecticut Data Privacy Act",
+      "citation": "Conn. Gen. Stat. § 42-515 et seq.",
+      "deadlineDays": 45
+    },
+    "DE": {
+      "state": "Delaware",
+      "law": "Delaware Personal Data Privacy Act",
+      "citation": "6 Del. C. § 12D-101 et seq.",
+      "deadlineDays": 45
+    },
+    "FL": {
+      "state": "Florida",
+      "law": "Florida Digital Bill of Rights",
+      "citation": "Fla. Stat. § 501.701 et seq.",
+      "deadlineDays": 45
+    },
+    "IN": {
+      "state": "Indiana",
+      "law": "Indiana Consumer Data Protection Act",
+      "citation": "Ind. Code § 24-15-1 et seq.",
+      "deadlineDays": 45
+    },
+    "IA": {
+      "state": "Iowa",
+      "law": "Iowa Consumer Data Protection Act",
+      "citation": "Iowa Code ch. 715D",
+      "deadlineDays": 90
+    },
+    "KY": {
+      "state": "Kentucky",
+      "law": "Kentucky Consumer Data Protection Act",
+      "citation": "KRS § 367.3611 et seq.",
+      "deadlineDays": 45
+    },
+    "MD": {
+      "state": "Maryland",
+      "law": "Maryland Online Data Privacy Act (MODPA)",
+      "citation": "Md. Code, Com. Law § 14-4601 et seq.",
+      "deadlineDays": 45
+    },
+    "MN": {
+      "state": "Minnesota",
+      "law": "Minnesota Consumer Data Privacy Act",
+      "citation": "Minn. Stat. ch. 325O",
+      "deadlineDays": 45
+    },
+    "MT": {
+      "state": "Montana",
+      "law": "Montana Consumer Data Privacy Act",
+      "citation": "Mont. Code Ann. § 30-14-2801 et seq.",
+      "deadlineDays": 45
+    },
+    "NE": {
+      "state": "Nebraska",
+      "law": "Nebraska Data Privacy Act",
+      "citation": "Neb. Rev. Stat. § 87-1101 et seq.",
+      "deadlineDays": 45
+    },
+    "NH": {
+      "state": "New Hampshire",
+      "law": "New Hampshire Data Privacy Act",
+      "citation": "N.H. RSA ch. 507-H",
+      "deadlineDays": 45
+    },
+    "NJ": {
+      "state": "New Jersey",
+      "law": "New Jersey Data Privacy Act",
+      "citation": "N.J. Stat. § 56:8-166.4 et seq.",
+      "deadlineDays": 45
+    },
+    "OR": {
+      "state": "Oregon",
+      "law": "Oregon Consumer Privacy Act",
+      "citation": "ORS § 646A.570 et seq.",
+      "deadlineDays": 45
+    },
+    "RI": {
+      "state": "Rhode Island",
+      "law": "Rhode Island Data Transparency and Privacy Protection Act",
+      "citation": "R.I. Gen. Laws ch. 6-48.1",
+      "deadlineDays": 45
+    },
+    "TN": {
+      "state": "Tennessee",
+      "law": "Tennessee Information Protection Act",
+      "citation": "Tenn. Code Ann. § 47-18-3201 et seq.",
+      "deadlineDays": 45
+    },
+    "TX": {
+      "state": "Texas",
+      "law": "Texas Data Privacy and Security Act",
+      "citation": "Tex. Bus. & Com. Code ch. 541",
+      "deadlineDays": 45
+    },
+    "UT": {
+      "state": "Utah",
+      "law": "Utah Consumer Privacy Act",
+      "citation": "Utah Code § 13-61-101 et seq.",
+      "deadlineDays": 45
+    },
+    "VA": {
+      "state": "Virginia",
+      "law": "Virginia Consumer Data Protection Act",
+      "citation": "Va. Code § 59.1-575 et seq.",
+      "deadlineDays": 45
+    },
+    "other": {
+      "state": "Other / no comprehensive state privacy law",
+      "law": "applicable federal and state privacy law",
+      "citation": "",
+      "deadlineDays": null
+    }
+  }
+};
