@@ -22,6 +22,8 @@
     <button id="btnImport" type="button">⬆ Import JSON</button>
     <input type="file" id="importFile" accept="application/json,.json" hidden>
     <button id="btnCopyState" type="button">Copy state as JSON</button>
+    <button id="btnScan" type="button" class="primary">🔍 Start scan</button>
+    <button id="btnScanPrompt" type="button">Copy scan prompt</button>
     <button id="btnSessionPrompt" type="button">Copy session prompt</button>
   </section>
 
@@ -52,6 +54,19 @@
   <p>Broker data adapted from the <a href="https://github.com/yaelwrites/Big-Ass-Data-Broker-Opt-Out-List" target="_blank" rel="noopener">Big Ass Data Broker Opt-Out List</a> (CC BY-NC-SA 4.0) — please contribute corrections upstream.</p>
   <p class="muted">Not legal advice. Results vary by broker; statutes change. Expect 1–45 days per broker and repeat rounds for some.</p>
 </footer>
+
+<dialog id="scanDialog">
+  <h2>Scan for your listings</h2>
+  <p class="muted" id="scanIntro">Step through each people-search site, look for your listing, and record what you find. Tier-2 brokers keep no public listings, so they're not scanned.</p>
+  <label class="scan-option"><input type="checkbox" id="scanIncludeClear"> Also re-scan sites previously marked clear (No listing / Removed)</label>
+  <div id="scanBody"></div>
+  <div class="dialog-actions">
+    <button id="btnScanFound" type="button">Found listing</button>
+    <button id="btnScanClear" type="button">No listing</button>
+    <button id="btnScanSkip" type="button" class="ghost">Skip</button>
+    <button id="btnScanStop" type="button" class="ghost">Stop scan</button>
+  </div>
+</dialog>
 
 <dialog id="letterDialog">
   <h2 id="letterTitle">Deletion letter</h2>

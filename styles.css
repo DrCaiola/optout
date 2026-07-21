@@ -149,6 +149,14 @@ input, select, textarea {
 .broker-actions button, .broker-actions .button { font-size: .8rem; padding: 5px 10px; }
 .notes-input { margin-top: 10px; font-size: .85rem; }
 
+/* Scan dialog */
+.scan-option { display: block; font-size: .85rem; color: var(--ink-2); margin-bottom: 12px; }
+.scan-option input { width: auto; margin-right: 6px; }
+.scan-card { background: var(--surface-2); border-radius: var(--radius); padding: 14px 16px; }
+.scan-progress { color: var(--ink-3); font-size: .8rem; margin-bottom: 4px; }
+.scan-card h3 { margin: 0 0 6px; }
+.scan-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
 /* Letter dialog */
 dialog {
   background: var(--surface);

@@ -24,6 +24,10 @@ When done, tell me the status to record: "No listing found", "Request sent", or 
 
 Ask the user in chat for personal details a form needs (name, city/state, DOB where strictly required) — never guess, never pull from files.
 
+## Scan-first pattern
+
+The **Copy scan prompt** button produces a read-only sweep: search every unchecked tier-1 site for the user's listing and report "Found listing" (with URL) or "No listing found" per site — no forms, no submissions. Run this before any opt-outs so the session prompt only contains brokers that actually hold a listing. Ask the user in chat for their name and city/state before starting; if a site walls its search behind a CAPTCHA or login, report it and move on.
+
 ## Batch sessions
 
 The **Copy session prompt** button bundles every broker in *Found listing* / *Recheck due*, in cascade order (PeopleConnect suppression first, then BeenVerified — each clears sister sites, so later brokers may already be clean; check before re-submitting). Work one broker at a time; report a status after each before moving on.

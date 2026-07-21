@@ -20,6 +20,17 @@ You help the user remove their personal information from data brokers, tracked i
 
 Ask the user to paste the tracker's **Copy state as JSON** output (or open the tracker page and read it). It lists every broker with `status` (`not_checked | no_listing | found_listing | request_sent | removed | recheck_due`), `recheckAt`, and notes. The repo's `brokers.json` holds each broker's opt-out URL, method, gotchas, and cascade relationships.
 
+## Initial scan (do this before any opt-outs)
+
+If most brokers are `not_checked`, run a **read-only scan** first so opt-out effort goes only where listings exist:
+
+1. Ask the user for their name and city/state in chat.
+2. For each tier-1 broker (in brokers.json order), search the site for their listing — use the site's own search or the `searchUrl` template from brokers.json. Submit nothing.
+3. Report per site: **"Found listing"** (with the listing URL) or **"No listing found"** — the user records these, or you set them via `window.tracker.setStatus(id, "found_listing" | "no_listing")` on the tracker page.
+4. If a site walls its search behind a CAPTCHA or login, say so and move on — the user checks that one manually.
+
+Tier-2 brokers keep no public listings — skip them when scanning; they get opt-out requests regardless.
+
 ## Opt-out session procedure
 
 Work brokers **in the order they appear in brokers.json** — cascades first:

@@ -28,6 +28,11 @@ for (const b of brokersDoc.brokers ?? []) {
   if (b.contactEmail && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(b.contactEmail)) errors.push(`${where}: bad contactEmail`);
   if (!b.note) errors.push(`${where}: missing note`);
   if (!Array.isArray(b.cascades)) errors.push(`${where}: cascades must be an array`);
+  if (b.searchUrl !== undefined) {
+    if (!/^https:\/\//.test(b.searchUrl)) errors.push(`${where}: searchUrl must be https`);
+    const badTokens = (b.searchUrl.match(/\{[^}]*\}/g) ?? []).filter((t) => !["{first}", "{last}", "{First}", "{Last}", "{city}", "{state}", "{STATE}", "{q}", "{qcs}"].includes(t));
+    if (badTokens.length) errors.push(`${where}: unknown searchUrl token(s) ${badTokens.join(", ")}`);
+  }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(b.lastVerified ?? "")) errors.push(`${where}: lastVerified must be YYYY-MM-DD`);
 }
 for (const b of brokersDoc.brokers ?? []) {

@@ -43,9 +43,9 @@ function entry(id) {
   return state.brokers[id];
 }
 
-function setStatus(id, status, note) {
+function setStatus(id, status, note, force = false) {
   const e = entry(id);
-  if (e.status === status) return;
+  if (e.status === status && !force) return;
   e.status = status;
   e.history.push({ status, at: new Date().toISOString(), ...(note ? { note } : {}) });
   e.recheckAt = status === "removed"
@@ -119,6 +119,127 @@ function importState(obj) {
     return;
   }
   toast("Unrecognized file — expected a tracker export or prototype progress JSON.");
+}
+
+/* ---------- listing search links ---------- */
+
+function nameParts() {
+  const parts = state.profile.name.trim().split(/\s+/).filter(Boolean);
+  return parts.length >= 2 ? { first: parts[0], last: parts[parts.length - 1] } : null;
+}
+
+const slugify = (s, sep) => s.trim().toLowerCase().replace(/\s+/g, sep);
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+
+/* Fill a broker's searchUrl template from the profile; null if the template
+   needs a detail the profile doesn't have yet. */
+function searchLink(b) {
+  const n = nameParts();
+  if (!b.searchUrl || !n) return null;
+  const p = state.profile;
+  const st = p.state && p.state !== "other" ? p.state : "";
+  if (b.searchUrl.includes("{city}") && !p.city.trim()) return null;
+  if ((b.searchUrl.includes("{state}") || b.searchUrl.includes("{STATE}")) && !st) return null;
+  return b.searchUrl
+    .replaceAll("{first}", slugify(n.first, "-"))
+    .replaceAll("{last}", slugify(n.last, "-"))
+    .replaceAll("{First}", cap(n.first))
+    .replaceAll("{Last}", cap(n.last))
+    .replaceAll("{city}", slugify(p.city, "-"))
+    .replaceAll("{state}", st.toLowerCase())
+    .replaceAll("{STATE}", st.toUpperCase())
+    .replaceAll("{q}", encodeURIComponent(`${n.first} ${n.last}`))
+    .replaceAll("{qcs}", encodeURIComponent(st ? `${p.city.trim()}, ${st}` : p.city.trim()));
+}
+
+/* site:-scoped web search — works for every broker, no URL scheme needed */
+function webSearchLink(b) {
+  const name = state.profile.name.trim();
+  if (!name) return null;
+  const host = new URL(b.optOutUrl).hostname.split(".").slice(-2).join(".");
+  return `https://duckduckgo.com/?q=${encodeURIComponent(`"${name}" site:${host}`)}`;
+}
+
+/* ---------- scan mode ---------- */
+
+let scanQueue = [];
+let scanIndex = 0;
+
+function scanTargets(includeClear) {
+  return BROKERS.filter((b) => b.tier === 1).filter((b) => {
+    const s = state.brokers[b.id]?.status ?? "not_checked";
+    return ["not_checked", "recheck_due"].includes(s) ||
+      (includeClear && ["no_listing", "removed"].includes(s));
+  });
+}
+
+function startScan() {
+  scanQueue = scanTargets($("#scanIncludeClear").checked);
+  scanIndex = 0;
+  if (!scanQueue.length) { toast("Nothing to scan — every tier-1 site has a current status. Tick the re-scan box to sweep them all."); return; }
+  renderScanStep();
+  const d = $("#scanDialog");
+  if (!d.open) d.showModal();
+}
+
+function renderScanStep() {
+  const b = scanQueue[scanIndex];
+  const s = state.brokers[b.id]?.status ?? "not_checked";
+  const sl = searchLink(b);
+  const wl = webSearchLink(b);
+  const links = [
+    ...(sl ? [[sl, "Search my name on the site"]] : []),
+    [b.optOutUrl, sl ? "Opt-out page" : "Open site / opt-out page"],
+    ...(wl ? [[wl, "Web-search my name"]] : []),
+  ];
+  $("#scanBody").innerHTML = `<div class="scan-card">
+    <div class="scan-progress">${scanIndex + 1} of ${scanQueue.length}${wl ? "" : " — fill in your Profile to get search links"}</div>
+    <h3>${esc(b.name)}</h3>
+    <span class="status"><span class="dot s-${s}"></span>${STATUS_LABELS[s]}</span>
+    <p class="note">${esc(b.note)}</p>
+    <div class="scan-links">${links.map(([href, label]) => `<a class="button" href="${esc(href)}" target="_blank" rel="noopener">${label} ↗</a>`).join("")}</div>
+  </div>`;
+}
+
+function scanAnswer(found) {
+  const b = scanQueue[scanIndex];
+  const prior = state.brokers[b.id]?.status ?? "not_checked";
+  if (found) {
+    setStatus(b.id, "found_listing", "scan: listing found", true);
+  } else if (prior === "recheck_due" || prior === "removed") {
+    // still clear on recheck — restart the 90-day clock
+    setStatus(b.id, "removed", "scan: still clear", true);
+  } else {
+    setStatus(b.id, "no_listing", "scan: no listing", true);
+  }
+  scanAdvance();
+}
+
+function scanAdvance() {
+  scanIndex++;
+  if (scanIndex >= scanQueue.length) {
+    $("#scanDialog").close();
+    toast("Scan complete — statuses updated.");
+    return;
+  }
+  renderScanStep();
+}
+
+function scanPrompt() {
+  const targets = scanTargets(false);
+  if (!targets.length) return null;
+  const items = targets.map((b, i) => {
+    const sl = searchLink(b);
+    return `${i + 1}. ${b.name}\n   Site / opt-out page: ${b.optOutUrl}${sl ? `\n   Likely search URL: ${sl}` : ""}\n   Notes: ${b.note}`;
+  }).join("\n");
+  return `Search these people-search sites for listings about me and report what you find. This is a READ-ONLY scan: use each site's own search, and do not submit any forms or opt-out requests yet.
+My name and city/state: ask me in chat before you start — do not guess.
+
+${items}
+
+For each site, report one of: "Found listing" (include the listing URL) or "No listing found", so I can record it in my tracker. If a site blocks the search behind a CAPTCHA or login wall, say so and move on — I'll check that one myself.
+
+${SAFETY_CONVENTIONS}`;
 }
 
 /* ---------- prompts & letters ---------- */
@@ -250,6 +371,7 @@ function brokerRow(b) {
     <span class="dates">${updated ? `Updated ${fmtDate(updated)}` : "No activity yet"}${e?.recheckAt ? ` · recheck ${fmtDate(e.recheckAt)}` : ""}</span>
   </div>
   <div class="broker-actions">
+    ${b.tier === 1 && (searchLink(b) || webSearchLink(b)) ? `<a class="button" href="${esc(searchLink(b) ?? webSearchLink(b))}" target="_blank" rel="noopener">Find my listing ↗</a>` : ""}
     <button type="button" data-act="prompt">Copy agent prompt</button>
     <button type="button" data-act="letter">Deletion letter</button>
     <a class="button" data-act="claude" target="_blank" rel="noopener" href="#">Open in Claude</a>
@@ -336,6 +458,7 @@ function bindProfile() {
     const el = document.getElementById(id);
     el.value = state.profile[key] ?? "";
     el.addEventListener("input", () => { state.profile[key] = el.value; save(); });
+    el.addEventListener("change", render); // refresh "Find my listing" links
   }
 }
 
@@ -364,6 +487,17 @@ document.addEventListener("DOMContentLoaded", () => {
     ev.target.value = "";
   });
   $("#btnCopyState").addEventListener("click", () => copyText(stateSummaryJSON(), "State JSON copied — paste it to your agent."));
+  $("#btnScan").addEventListener("click", startScan);
+  $("#btnScanPrompt").addEventListener("click", () => {
+    const p = scanPrompt();
+    if (!p) { toast("Nothing to scan — every tier-1 site has a current status."); return; }
+    copyText(p, "Scan prompt copied — paste it to your agent.");
+  });
+  $("#scanIncludeClear").addEventListener("change", startScan);
+  $("#btnScanFound").addEventListener("click", () => scanAnswer(true));
+  $("#btnScanClear").addEventListener("click", () => scanAnswer(false));
+  $("#btnScanSkip").addEventListener("click", scanAdvance);
+  $("#btnScanStop").addEventListener("click", () => $("#scanDialog").close());
   $("#btnSessionPrompt").addEventListener("click", () => {
     const p = sessionPrompt();
     if (!p) { toast('No brokers in "Found listing" or "Recheck due" right now.'); return; }
